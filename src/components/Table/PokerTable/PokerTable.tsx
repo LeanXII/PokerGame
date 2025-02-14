@@ -12,7 +12,7 @@ export default function PokerTable() {
           <div className="absolute top-1 right-60 flex">
             <PlayerCardArea />
           </div>
-          <div className = "absolute right-1 flex">
+          <div className = "absolute right-5 flex">
             <PlayerCardArea horizontal = {true}/>
           </div>
           <div className="absolute bottom-1 right-60 flex">
@@ -21,7 +21,7 @@ export default function PokerTable() {
           <div className="absolute bottom-1 left-60 flex">
             <PlayerCardArea />
           </div>
-          <div className = "absolute left-1 flex">
+          <div className = "absolute left-5 flex">
             <PlayerCardArea horizontal = {true} />
           </div>
 
