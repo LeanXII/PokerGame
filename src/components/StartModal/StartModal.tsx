@@ -1,8 +1,7 @@
 'use client'
 
 import {useState} from 'react'
-
-import { startGame } from "@/store/poker/Actions"
+import { handleStartGame } from '@/store/poker/ActionHandlers'
 import { usePoker } from "@/store/poker/Reducer"
 
 export default function StartModal(){
@@ -10,10 +9,10 @@ export default function StartModal(){
   const {dispatch} = usePoker()
 
 
-  const handleStartGame = () => {
+  const handleStartGameClick = () => {
     setShowModal(false)
     setTimeout(()=>{
-      dispatch(startGame())
+      handleStartGame(dispatch)
     }, 600)
   }
 
@@ -23,7 +22,7 @@ export default function StartModal(){
         <label htmlFor = "new-game">
           Start a new game!
         </label>
-        <button id="new-game" className = "bg-green-500 w-full rounded-lg text-black" onClick={handleStartGame}>
+        <button id="new-game" className = "bg-green-500 w-full rounded-lg text-black" onClick={handleStartGameClick}>
           Start
         </button>
 

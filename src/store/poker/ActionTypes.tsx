@@ -1,4 +1,4 @@
-import { GameAction } from "../types/storeTypes";
+import { GameAction, Player } from "../types/storeTypes";
 
 
 //All my action types
@@ -32,6 +32,8 @@ export const bet = (playerId: string, betAmount: number): GameAction => ({
   payload: {playerId, betAmount}
 })
 
-export const startGame = (): GameAction => ({
-  type: START_GAME
+export const startGame = (deckId: string, players: Player[]): GameAction => ({
+  type: START_GAME,
+  payload: {deckId, players}
+
 })

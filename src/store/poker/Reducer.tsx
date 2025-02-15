@@ -7,7 +7,8 @@ import {
   type ProviderProps,
   PokerContextType,
 } from "../types/storeTypes";
-import { START_GAME, CHECK, CALL, RAISE, BET, FOLD } from "./Actions";
+
+import { START_GAME, CHECK, CALL, RAISE, BET, FOLD } from "./ActionTypes";
 
 const initialState: GameState = {
   players: [],
@@ -18,6 +19,7 @@ const initialState: GameState = {
   smallBlindPosition: 2,
   gameStatus: "waiting",
   currentTurn: 0,
+  deckId: "",
 };
 
 const pokerReducer = (state: GameState, action: GameAction): GameState => {
@@ -37,9 +39,13 @@ const pokerReducer = (state: GameState, action: GameAction): GameState => {
     case FOLD:
       break;
     case START_GAME:
-
-      return {...state, gameStatus: "underway"}
-
+      return {
+        ...state,
+        gameStatus: "underway",
+        deckId: action.payload.deckId,
+        players: action.payload.players,
+        currentTurn: state.currentTurn + 1
+      };
 
     default:
       return state;
