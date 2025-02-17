@@ -1,16 +1,17 @@
-import { usePoker } from "@/store/poker/Reducer";
+import { usePokerStore } from "@/store/poker/PokerStore";
 import { PlayerAreaProps} from "@/store/types/storeTypes";
 import { distributeChips } from "@/utils/playerUtils";
 import Image from "next/image";
 import React from "react";
 
 const ChipArea: React.FC<PlayerAreaProps> = ({ player }) => {
-  const { state } = usePoker();
+  const gameStatus = usePokerStore((state) => state.gameStatus)
+  const players = usePokerStore((state) => state.players)
 
-  const chipDistro = distributeChips(state.players[player-1]?.chips);
+  const chipDistro = distributeChips(players[player-1]?.chips);
 
   return (
-    state.gameStatus === "underway" && (
+    gameStatus === "underway" && (
       <div className=" w-20 h-20 grid grid-cols-6">
         <div>
         {chipDistro.yellow != 0 &&

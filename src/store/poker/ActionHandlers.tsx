@@ -1,18 +1,24 @@
-import { Dispatch } from "react";
 import { drawHoleCards, generateDeck } from "@/utils/deckUtils";
-import { GameAction, Player, Card } from "../types/storeTypes";
-import { START_GAME, PAY_SMALL_BLIND, PAY_BIG_BLIND } from "./ActionTypes";
-import { usePoker } from "./Reducer";
-import { flushSync } from "react-dom";
+import { Player, Card} from "../types/storeTypes";
+import { usePokerStore } from "./PokerStore";
+
 
 const ActionHandlers = () => {
-  const { state } = usePoker();
+  const updatePlayers = usePokerStore((state)=> state.updatePlayers)
+  const updateGameStatus = usePokerStore((state) => state.updateGameStatus)
+  const updateDeckId = usePokerStore((state) => state.updateDeckId)
+  const increasePotBy = usePokerStore((state) => state.increasePotBy)
+  const incrementCurrentRound = usePokerStore((state) => state.incrementCurrentRound)
+  const smallBlindPosition = usePokerStore((state) => state.smallBlindPosition)
+  const bigBlindPosition = usePokerStore((state) => state.bigBlindPosition)
 
-  const handleStartGame = async (dispatch: Dispatch<GameAction>): Promise<void> => {
+
+
+  const handleStartGame = async (): Promise<void> => {
     try {
       //generate a new deck
       const newDeck = await generateDeck();
-
+      if(newDeck) updateDeckId(newDeck.deck_id)
       //initialize all 6 players
       const players: Player[] = [];
       for (let i = 0; i < 6; i++) {
@@ -35,21 +41,19 @@ const ActionHandlers = () => {
         players.push(player);
       }
 
-      //dispatch the action with the payload
-      if (newDeck && players.length > 0) {
-        dispatch({
-          type: START_GAME,
-          payload: { deckId: newDeck.deck_id, players: players },
-        });
-      }
+      incrementCurrentRound();
+      updatePlayers(players);
+      updateGameStatus("underway");
+
+
     } catch (err) {
       console.error(err);
     }
   };
 
-  const handlePaySmallBlind = (dispatch: Dispatch<GameAction>) => {
-    const updatedPlayers = state.players.map((player) => {
-      if (player.id === state.smallBlindPosition) {
+  const handlePaySmallBlind = () => {
+    const updatedPlayers = usePokerStore.getState().players.map((player) => {
+      if (player.id === smallBlindPosition) {
         return {
           ...player,
           chips: player.chips - 50,
@@ -57,20 +61,14 @@ const ActionHandlers = () => {
       }
       return player;
     });
-    return new Promise<void>(resolve => {
-      flushSync(()=> {
-        dispatch({
-          type: PAY_SMALL_BLIND,
-          payload: { pot: state.pot + 50, players: updatedPlayers },
-        });
-      })
-        resolve();
-    })
+
+    updatePlayers(updatedPlayers);
+    increasePotBy(50)
   };
 
-  const handlePayBigBlind = (dispatch: Dispatch<GameAction>) => {
-    const updatedPlayers = state.players.map((player) => {
-      if (player.id === state.bigBlindPosition) {
+  const handlePayBigBlind = () => {
+    const updatedPlayers = usePokerStore.getState().players.map((player) => {
+      if (player.id === bigBlindPosition) {
         return {
           ...player,
           chips: player.chips - 100,
@@ -79,15 +77,9 @@ const ActionHandlers = () => {
       return player;
     });
 
-    return new Promise<void>(resolve => {
-      flushSync(()=> {
-        dispatch({
-          type: PAY_BIG_BLIND,
-          payload: { pot: state.pot + 100, players: updatedPlayers },
-        });
-      })
-        resolve();
-    })
+    updatePlayers(updatedPlayers)
+    increasePotBy(100)
+
   };
 
   return { handleStartGame, handlePaySmallBlind, handlePayBigBlind };

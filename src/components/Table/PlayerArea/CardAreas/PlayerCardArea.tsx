@@ -1,11 +1,11 @@
 import { type PlayerCardArea } from "@/store/types/storeTypes";
-import { usePoker } from "@/store/poker/Reducer";
+import { usePokerStore } from "@/store/poker/PokerStore";
 import Card from "../../Card/Card";
 import { clsx } from "ts-clsx";
 
 export default function PlayerCardArea({ horizontal, player }: PlayerCardArea) {
 
-  const {state} = usePoker();
+  const players = usePokerStore((state) => state.players)
 
   let cardImage1;
   let cardImage2;
@@ -13,8 +13,8 @@ export default function PlayerCardArea({ horizontal, player }: PlayerCardArea) {
   const isCurrentPlayer = player-1 === 0;
 
   if(isCurrentPlayer){
-    cardImage1 = state.players[player-1]?.cards[0].image;
-    cardImage2 = state.players[player-1]?.cards[1].image;
+    cardImage1 = players[player-1]?.cards[0].image;
+    cardImage2 = players[player-1]?.cards[1].image;
   } else {
     cardImage1 = cardImage2 = "https://deckofcardsapi.com/static/img/back.png";
   }

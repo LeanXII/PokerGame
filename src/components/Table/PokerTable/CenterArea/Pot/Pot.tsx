@@ -1,15 +1,17 @@
-import { usePoker } from "@/store/poker/Reducer"
+
+import { usePokerStore } from "@/store/poker/PokerStore";
 import { distributeChips } from "@/utils/playerUtils";
 import Image from "next/image";
 
 const Pot = () => {
 
-  const {state} = usePoker();
+  const gameStatus = usePokerStore((state) => state.gameStatus)
+  const pot = usePokerStore((state) => state.pot)
 
-  const chipDistro = distributeChips(state.pot)
+  const chipDistro = distributeChips(pot)
 
    return (
-      state.gameStatus === "underway" && (
+      gameStatus === "underway" && (
         <div className=" w-20 h-20 grid grid-cols-6">
           <div>
           {chipDistro.yellow != 0 &&

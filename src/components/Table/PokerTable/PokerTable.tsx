@@ -1,7 +1,9 @@
 import CenterCardArea from "./CenterArea/CenterCardArea";
 import PlayerArea from "../PlayerArea/PlayerArea";
 
+
 export default function PokerTable() {
+
 
 
 

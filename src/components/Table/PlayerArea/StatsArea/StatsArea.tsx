@@ -1,36 +1,38 @@
-import { usePoker } from "@/store/poker/Reducer";
+import { usePokerStore } from "@/store/poker/PokerStore";
 import { PlayerAreaProps } from "@/store/types/storeTypes";
 import React from "react";
 
 
 const StatsArea: React.FC<PlayerAreaProps> = ({player}) => {
 
-  const {state} = usePoker();
-
-
+  const gameStatus = usePokerStore((state) => state.gameStatus)
+  const dealerPosition = usePokerStore((state) => state.dealerPosition)
+  const bigBlindPosition = usePokerStore((state) => state.bigBlindPosition)
+  const smallBlindPosition = usePokerStore((state) => state.smallBlindPosition)
+  const players = usePokerStore((state) => state.players)
 
   return(
-    state.gameStatus === "underway" && (
+    gameStatus === "underway" && (
 
       <div className = "text-sm h-20 ">
-        {state.dealerPosition === player-1 && (
+        {dealerPosition === player-1 && (
 
           <div className = "text-blue-500 text-sm">
             Dealer
         </div>
         )}
-        {state.bigBlindPosition === player-1 && (
+        {bigBlindPosition === player-1 && (
           <div className = "text-blue-500 text-sm">
             Big blind
             </div>
         )}
-        {state.smallBlindPosition === player-1 && (
+        {smallBlindPosition === player-1 && (
           <div className = "text-blue-500 text-sm">
             Small blind
             </div>
         )}
       <div>
-        Funds: ${state.players[player-1].chips}
+        Funds: ${players[player-1].chips}
       </div>
     </div>
     )

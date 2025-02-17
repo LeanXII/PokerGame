@@ -2,11 +2,11 @@
 
 import {useState} from 'react'
 import ActionHandlers from '@/store/poker/ActionHandlers'
-import { usePoker } from "@/store/poker/Reducer"
+
 
 export default function StartModal(){
   const [showModal, setShowModal] = useState<boolean>(true)
-  const {dispatch} = usePoker()
+
 
   const {handleStartGame} = ActionHandlers();
 
@@ -15,7 +15,7 @@ export default function StartModal(){
   const handleStartGameClick = () => {
     setShowModal(false)
     setTimeout(()=>{
-      handleStartGame(dispatch)
+      handleStartGame()
     }, 600)
   }
 

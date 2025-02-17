@@ -1,16 +1,17 @@
 "use client";
-
+import { usePokerStore } from "@/store/poker/PokerStore";
 import PokerTable from "@/components/Table/PokerTable/PokerTable";
 import GameStats from "@/components/GameStats/GameStats";
 import StartModal from "@/components/StartModal/StartModal";
-import { usePoker } from "@/store/poker/Reducer";
+
 
 export default function Poker() {
-  const { state } = usePoker();
+  const gameStatus = usePokerStore((state) => state.gameStatus)
+  
 
   return (
     <div className="h-screen overflow-y-hidden overflow-x-scroll">
-      {state.gameStatus === "waiting" && <StartModal />}
+      {gameStatus === "waiting" && <StartModal />}
 
       <div className="flex items-center h-full">
         <GameStats />

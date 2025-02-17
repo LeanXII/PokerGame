@@ -1,27 +1,28 @@
 import ActionHandlers from "./ActionHandlers"
-import { usePoker } from "./Reducer";
+
 
 
 
 const RoundOrchestration = () => {
 
-  const {dispatch} = usePoker();
+
   const {handlePaySmallBlind, handlePayBigBlind} = ActionHandlers();
 
 
 
-  const handleRoundStart = async () => {
+  const handleRoundStart =  () => {
+
+    setTimeout(()=> {
+
+      handlePaySmallBlind()
+    },1000)
+
+    setTimeout(()=> {
+
+      handlePayBigBlind()
+    }, 2000)
 
 
-     await handlePaySmallBlind(dispatch)
-
-
-
-
-
-       await handlePayBigBlind(dispatch)
-
-    
 
 
 
