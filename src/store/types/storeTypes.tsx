@@ -8,7 +8,7 @@ export type Card = {
 }
 
 export type Player = {
-  id: string;
+  id: number;
   name: string;
   chips: number;
   cards: Card[];
@@ -29,12 +29,15 @@ export type GameState = {
 };
 
 export type GameAction =
-  | { type: "CHECK"; payload: { playerId: string } }
-  | { type: "CALL"; payload: { playerId: string } }
-  | { type: "RAISE"; payload: { playerId: string; betAmount: number } }
-  | { type: "BET"; payload: { playerId: string; betAmount: number } }
-  | { type: "FOLD"; payload: { playerId: string } }
+  | { type: "CHECK"; payload: { playerId: number } }
+  | { type: "CALL"; payload: { playerId: number } }
+  | { type: "RAISE"; payload: { playerId: number; betAmount: number } }
+  | { type: "BET"; payload: { playerId: number; betAmount: number } }
+  | { type: "FOLD"; payload: { playerId: number } }
   | { type: "START_GAME"; payload: {deckId: string; players: Player[]}}
+  | {type: "ROTATE_BLINDS"; payload: {playerIds: number[]}}
+  | {type: "PAY_SMALL_BLIND"; payload: {pot: number, players: Player[]} }
+  | {type: "PAY_BIG_BLIND"; payload: {pot: number, players: Player[]} }
 
 export type StartGameAction = {
   type: typeof START_GAME;
@@ -53,7 +56,7 @@ export type CardProps = {
 
 export type PlayerCardArea = {
   horizontal?: boolean;
-  playerNumber: number
+  player: number
 };
 
 export type ProviderProps = {
@@ -63,13 +66,23 @@ export type ProviderProps = {
 export type PlayerLayoutOptions = {
   cardArea: string,
   spriteArea: string,
-  specialRoleArea: string,
+  statsArea: string,
   chipsArea: string,
   horizontal?: boolean
 }
 
 export type PlayerAreaProps = {
-  player: string
+  player: number
+}
+
+
+export type ChipDistro = {
+  white: number,
+  red: number,
+  green: number,
+  black: number,
+  blue: number
+  yellow: number
 }
 
 

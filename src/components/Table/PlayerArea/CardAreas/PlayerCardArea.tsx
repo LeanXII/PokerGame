@@ -3,18 +3,18 @@ import { usePoker } from "@/store/poker/Reducer";
 import Card from "../../Card/Card";
 import { clsx } from "ts-clsx";
 
-export default function PlayerCardArea({ horizontal, playerNumber }: PlayerCardArea) {
+export default function PlayerCardArea({ horizontal, player }: PlayerCardArea) {
 
   const {state} = usePoker();
 
   let cardImage1;
   let cardImage2;
 
-  const isCurrentPlayer = playerNumber-1 === 0;
+  const isCurrentPlayer = player-1 === 0;
 
   if(isCurrentPlayer){
-    cardImage1 = state.players[playerNumber-1]?.cards[0].image;
-    cardImage2 = state.players[playerNumber-1]?.cards[1].image;
+    cardImage1 = state.players[player-1]?.cards[0].image;
+    cardImage2 = state.players[player-1]?.cards[1].image;
   } else {
     cardImage1 = cardImage2 = "https://deckofcardsapi.com/static/img/back.png";
   }

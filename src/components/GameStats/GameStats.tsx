@@ -1,7 +1,10 @@
 import { usePoker } from "@/store/poker/Reducer"
+import RoundOrchestration from "@/store/poker/RoundOrchestration";
 
 
 export default function GameStats(){
+
+  const {handleRoundStart} = RoundOrchestration();
 
   const {state} = usePoker();
 
@@ -15,6 +18,11 @@ export default function GameStats(){
       </div>
       <div>
         Current Turn: {state.currentTurn}
+      </div>
+      <div>
+        <button className = "bg-red-500 rounded-lg p-1" onClick = {handleRoundStart}>
+          Begin Round!
+        </button>
       </div>
     </div>
   )

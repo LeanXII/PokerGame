@@ -1,12 +1,15 @@
 'use client'
 
 import {useState} from 'react'
-import { handleStartGame } from '@/store/poker/ActionHandlers'
+import ActionHandlers from '@/store/poker/ActionHandlers'
 import { usePoker } from "@/store/poker/Reducer"
 
 export default function StartModal(){
   const [showModal, setShowModal] = useState<boolean>(true)
   const {dispatch} = usePoker()
+
+  const {handleStartGame} = ActionHandlers();
+
 
 
   const handleStartGameClick = () => {

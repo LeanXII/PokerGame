@@ -6,17 +6,19 @@ import {
   type GameAction,
   type ProviderProps,
   PokerContextType,
+  Player,
 } from "../types/storeTypes";
 
-import { START_GAME, CHECK, CALL, RAISE, BET, FOLD } from "./ActionTypes";
+import { START_GAME, CHECK, CALL, RAISE, BET, FOLD, ROTATE_BLINDS, PAY_SMALL_BLIND, PAY_BIG_BLIND } from "./ActionTypes";
+
 
 const initialState: GameState = {
-  players: [],
+  players: [] as Player[],
   pot: 0,
   currentBet: 0,
   dealerPosition: 0,
-  bigBlindPosition: 1,
-  smallBlindPosition: 2,
+  smallBlindPosition: 1,
+  bigBlindPosition: 2,
   gameStatus: "waiting",
   currentTurn: 0,
   deckId: "",
@@ -46,10 +48,32 @@ const pokerReducer = (state: GameState, action: GameAction): GameState => {
         players: action.payload.players,
         currentTurn: state.currentTurn + 1
       };
+    case ROTATE_BLINDS:
+      return{
+        ...state,
+        dealerPosition: state.dealerPosition === 5 ? 0 : state.dealerPosition + 1,
+        smallBlindPosition: state.smallBlindPosition === 5 ? 0 : state.smallBlindPosition + 1,
+        bigBlindPosition: state.bigBlindPosition === 5 ? 0 : state.bigBlindPosition + 1
+      }
+
+    case PAY_SMALL_BLIND:
+      return{
+        ...state,
+        pot: action.payload.pot,
+        players: action.payload.players
+      }
+
+    case PAY_BIG_BLIND:
+      return{
+        ...state,
+        pot: action.payload.pot,
+        players: action.payload.players
+      }
 
     default:
       return state;
   }
+  return state;
 };
 
 const PokerContext = createContext<PokerContextType | null>(null);
