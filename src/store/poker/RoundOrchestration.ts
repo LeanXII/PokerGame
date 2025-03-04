@@ -6,11 +6,16 @@ import ActionHandlers from "./ActionHandlers"
 const RoundOrchestration = () => {
 
 
-  const {handlePaySmallBlind, handlePayBigBlind} = ActionHandlers();
+  const {handleRotatePositions, handlePaySmallBlind, handlePayBigBlind} = ActionHandlers();
 
 
 
   const handleRoundStart =  () => {
+
+    setTimeout(() => {
+
+      handleRotatePositions();
+    })
 
     setTimeout(()=> {
 

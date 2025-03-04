@@ -90,4 +90,9 @@ export type ChipDistro = {
   yellow: number
 }
 
+export type CurrentBestHand = {
+  handType: string,
+  highCard: number
+}
+
 

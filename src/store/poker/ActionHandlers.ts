@@ -9,8 +9,13 @@ const ActionHandlers = () => {
   const updateDeckId = usePokerStore((state) => state.updateDeckId)
   const increasePotBy = usePokerStore((state) => state.increasePotBy)
   const incrementCurrentRound = usePokerStore((state) => state.incrementCurrentRound)
+  const currentRound = usePokerStore((state) => state.currentRound);
   const smallBlindPosition = usePokerStore((state) => state.smallBlindPosition)
+  const updateSmallBlindPosition = usePokerStore((state) => state.updateSmallBlindPosition);
   const bigBlindPosition = usePokerStore((state) => state.bigBlindPosition)
+  const updateBigBlindPosition = usePokerStore((state) => state.updateBigBlindPosition);
+  const dealerPosition = usePokerStore((state) => state.dealerPosition);
+  const updateDealerPosition = usePokerStore((state) => state.updateDealerPosition);
 
 
 
@@ -51,6 +56,28 @@ const ActionHandlers = () => {
     }
   };
 
+  const handleRotatePositions = () => {
+    if(currentRound != 1) {
+      if(dealerPosition === 5){
+        updateDealerPosition(0)
+      } else {
+        updateDealerPosition(dealerPosition + 1);
+      }
+
+      if(smallBlindPosition === 5){
+        updateSmallBlindPosition(0)
+      } else {
+        updateSmallBlindPosition(smallBlindPosition + 1);
+      }
+
+      if(bigBlindPosition === 5){
+        updateBigBlindPosition(0)
+      } else {
+        updateBigBlindPosition(bigBlindPosition + 1);
+      }
+    }
+  }
+
   const handlePaySmallBlind = () => {
     const updatedPlayers = usePokerStore.getState().players.map((player) => {
       if (player.id === smallBlindPosition) {
@@ -82,7 +109,11 @@ const ActionHandlers = () => {
 
   };
 
-  return { handleStartGame, handlePaySmallBlind, handlePayBigBlind };
+  const handleAITurn = () => {
+
+  }
+
+  return { handleStartGame, handleRotatePositions, handlePaySmallBlind, handlePayBigBlind, handleAITurn };
 };
 
 export default ActionHandlers;
